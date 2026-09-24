@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VisiónTaller - Lobby</title>
+    <title>VisiónTaller - Menú Principal</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 50px; }
-        h1 { color: #333; }
-        .botones { margin-top: 40px; }
-        .boton { display: inline-block; padding: 15px 30px; margin: 10px; font-size: 18px; text-decoration: none; color: white; background-color: #007BFF; border-radius: 8px; transition: 0.3s; }
-        .boton:hover { background-color: #0056b3; }
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .boton-aula { 
+            display: inline-block; padding: 15px 30px; margin: 10px; 
+            font-size: 18px; color: white; background-color: #0056b3; 
+            text-decoration: none; border-radius: 5px; 
+        }
+        .boton-aula:hover { background-color: #003d82; }
     </style>
 </head>
 <body>
-    <h1>Sistema de Control de Stock</h1>
-    <p>Seleccione el tablero que desea monitorear:</p>
-    <div class="botones">
-        <a href="/aula/212" class="boton">Ir al Aula 212</a>
-        <a href="/aula/213" class="boton">Ir al Aula 213</a>
-    </div>
+
+    <h1>Lobby VisiónTaller</h1>
+    <p>Seleccione el tablero que desea visualizar:</p>
+
+    <!-- Botones de las aulas -->
+    <a href="/aula/212" class="boton-aula">Aula 212</a>
+    <a href="/aula/213" class="boton-aula">Aula 213</a>
+
 </body>
 </html>

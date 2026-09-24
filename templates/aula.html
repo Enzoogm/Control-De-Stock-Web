@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula {{ numero_aula }} - VisiónTaller</title>
+    <title>Tablero - Aula {{ aula }}</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 20px; }
-        .video-container { margin-top: 20px; border: 5px solid #333; border-radius: 10px; display: inline-block; overflow: hidden; background-color: #000; min-width: 320px; min-height: 240px;}
-        img { max-width: 100%; height: auto; display: block; }
-        .volver { display: inline-block; margin-top: 20px; padding: 10px 20px; font-size: 16px; text-decoration: none; color: white; background-color: #6c757d; border-radius: 5px; }
-        .volver:hover { background-color: #5a6268; }
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; margin-top: 30px;}
+        .video-container { border: 4px solid #333; display: inline-block; background-color: #000; }
+        .boton-volver { 
+            display: inline-block; padding: 10px 20px; margin-top: 20px; 
+            font-size: 16px; color: white; background-color: #dc3545; 
+            text-decoration: none; border-radius: 5px; 
+        }
     </style>
 </head>
 <body>
-    <h1>Transmisión del Aula {{ numero_aula }}</h1>
-    <p>Monitoreo en vivo del tablero de herramientas</p>
-    
+
+    <h2>Transmisión en vivo: Aula {{ aula }}</h2>
+
     <div class="video-container">
-        <!-- Acá le pedimos al servidor el video específico de esta aula -->
-        <img src="/video_feed/{{ numero_aula }}" alt="Cámara Aula {{ numero_aula }}">
+        <img src="/video_feed/{{ aula }}" width="800" height="600" alt="Cámara de esta aula apagada, desconectada o fuera de servicio.">
     </div>
-    
+
     <br>
-    <a href="/" class="volver">Volver al Lobby</a>
+    <a href="/" class="boton-volver">Volver al menú principal</a>
+
 </body>
 </html>
