@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula {{ numero_aula }} - VisiónTaller</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 20px; }
+        .video-container { margin-top: 20px; border: 5px solid #333; border-radius: 10px; display: inline-block; overflow: hidden; background-color: #000; min-width: 320px; min-height: 240px;}
+        img { max-width: 100%; height: auto; display: block; }
+        .volver { display: inline-block; margin-top: 20px; padding: 10px 20px; font-size: 16px; text-decoration: none; color: white; background-color: #6c757d; border-radius: 5px; }
+        .volver:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+    <h1>Transmisión del Aula {{ numero_aula }}</h1>
+    <p>Monitoreo en vivo del tablero de herramientas</p>
+    
+    <div class="video-container">
+        <!-- Acá le pedimos al servidor el video específico de esta aula -->
+        <img src="/video_feed/{{ numero_aula }}" alt="Cámara Aula {{ numero_aula }}">
+    </div>
+    
+    <br>
+    <a href="/" class="volver">Volver al Lobby</a>
+</body>
+</html>
