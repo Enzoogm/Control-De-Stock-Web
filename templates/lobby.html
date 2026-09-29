@@ -6,22 +6,24 @@
     <title>VisiónTaller - Menú Principal</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .boton-aula { 
+        .boton-tablero { 
             display: inline-block; padding: 15px 30px; margin: 10px; 
             font-size: 18px; color: white; background-color: #0056b3; 
             text-decoration: none; border-radius: 5px; 
         }
-        .boton-aula:hover { background-color: #003d82; }
+        .boton-tablero:hover { background-color: #003d82; }
+        .info-aula { font-size: 20px; color: #333; margin-bottom: 30px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <h1>Lobby VisiónTaller</h1>
-    <p>Seleccione el tablero que desea visualizar:</p>
+    <p class="info-aula">📍 Aula 212</p>
+    <p>Seleccione el tablero que desea monitorear:</p>
 
-    <!-- Botones de las aulas -->
-    <a href="/aula/212" class="boton-aula">Aula 212</a>
-    <a href="/aula/213" class="boton-aula">Aula 213</a>
+    <!-- Botones de los tableros -->
+    <a href="/tablero/A" class="boton-tablero">Tablero A</a>
+    <a href="/tablero/B" class="boton-tablero">Tablero B</a>
 
 </body>
 </html>

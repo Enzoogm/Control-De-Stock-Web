@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero - Aula {{ aula }}</title>
+    <title>Aula 212 - Tablero {{ tablero }}</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; margin-top: 30px;}
         .video-container { border: 4px solid #333; display: inline-block; background-color: #000; }
@@ -16,10 +16,10 @@
 </head>
 <body>
 
-    <h2>Transmisión en vivo: Aula {{ aula }}</h2>
+    <h2>Aula 212 | Transmisión en vivo con IA: Tablero {{ tablero }}</h2>
 
     <div class="video-container">
-        <img src="/video_feed/{{ aula }}" width="800" height="600" alt="Cámara de esta aula apagada, desconectada o fuera de servicio.">
+        <img src="/video_feed/{{ tablero }}" width="800" height="600" alt="Cámara de este tablero apagada, desconectada o fuera de servicio.">
     </div>
 
     <br>
