@@ -1,49 +1,58 @@
+import eventlet
+eventlet.monkey_patch() # Parchea el sistema para que los sockets fluyan en tiempo real
+
 from flask import Flask, render_template, Response
+from flask_socketio import SocketIO
 import cv2
 import datetime
 from ultralytics import YOLO
 
 app = Flask(__name__)
+# Inicializamos Socket.IO permitiendo que se conecten desde otras IPs (tu celular)
+socketio = SocketIO(app, cors_allowed_origins="*") 
 
-# Cargamos el modelo de IA pre-entrenado
 modelo_yolo = YOLO('yolov8n.pt')
 
 def generar_frames(nombre_tablero):
-    # Tablero A usa la cámara de la laptop (0), Tablero B usa la USB externa (1)
     if nombre_tablero == 'A':
         cam_index = 0
-    elif nombre_tablero == 'B':
-        cam_index = 1
     else:
-        cam_index = 0
+        cam_index = 1
         
     camera = cv2.VideoCapture(cam_index)
 
     try:
         while True:
             success, frame = camera.read()
-            
             if not success:
-                # Si la cámara no está conectada, sale de la transmisión
                 break
-            else:
-                # 1. Pasamos la imagen a YOLO para detectar objetos
-                resultados = modelo_yolo(frame)
                 
-                # 2. Obtenemos el frame dibujado con los recuadros
-                frame_procesado = resultados[0].plot()
-                
-                # 3. Dibujamos la fecha y hora
-                ahora = datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")
-                cv2.putText(frame_procesado, ahora, (10, frame_procesado.shape[0] - 15), 
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-                
-                # 4. Codificamos a formato JPEG y enviamos
-                ret, buffer = cv2.imencode('.jpg', frame_procesado)
-                frame_bytes = buffer.tobytes()
-                
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+            resultados = modelo_yolo(frame)
+            frame_procesado = resultados[0].plot()
+            
+            # --- LA NOVEDAD: Extraer nombres y enviar al celular ---
+            nombres_detectados = []
+            for caja in resultados[0].boxes:
+                clase_id = int(caja.cls[0])
+                nombre_objeto = modelo_yolo.names[clase_id]
+                nombres_detectados.append(nombre_objeto)
+            
+            # Removemos duplicados (si hay 3 pinzas, enviamos ["pinza"])
+            nombres_unicos = list(set(nombres_detectados))
+            
+            # Emitimos por Socket.IO al celular (Canal: 'actualizacion_ia')
+            socketio.emit('actualizacion_ia', {'objetos': nombres_unicos})
+            
+            # --- LA SOLUCIÓN MÁGICA ---
+            # Esto pausa el ciclo 0.01 segundos para que el mensaje pueda viajar por Wi-Fi
+            socketio.sleep(0.01)
+            # ---------------------------------------------------------
+            
+            ret, buffer = cv2.imencode('.jpg', frame_procesado)
+            frame_bytes = buffer.tobytes()
+            
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
     finally:
         camera.release()
 
@@ -60,4 +69,11 @@ def video_feed(nombre_tablero):
     return Response(generar_frames(nombre_tablero), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    print("\n" + "="*50)
+    print("🚀 SERVIDOR IA INICIADO CORRECTAMENTE")
+    print("👉 Entrar al Lobby: http://127.0.0.1:5000")
+    print("👉 Ir directo al Tablero A: http://127.0.0.1:5000/tablero/A")
+    print("="*50 + "\n")
+    
+    # Ahora usamos socketio.run en lugar de app.run
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
